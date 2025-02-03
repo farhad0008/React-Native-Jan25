@@ -10,6 +10,7 @@ import StackNavi from './StackNavi';
 import BottomTabNavi from './BottomTabNavi';
 import TopTabNavi from './TopTabNavi';
 import BottomSheet from './BottomSheet';
+import SignUp from '../screen/SignUp';
 
 const DrawerNavi = () => {
   const Drawer=createDrawerNavigator();
@@ -23,6 +24,7 @@ const DrawerNavi = () => {
             <Drawer.Screen name='BottomTabNavi' component={BottomTabNavi} options={{headerShown:false}} />
             <Drawer.Screen name='TopTabNavi' component={TopTabNavi} options={{headerShown:false}} />
             <Drawer.Screen name='BottomSheet' component={BottomSheet} options={{headerShown:false}} />
+            <Drawer.Screen name='SignUp' component={SignUp} options={{headerShown:false}} />
         </Drawer.Navigator>
     </>
   )
