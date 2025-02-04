@@ -4,7 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { Button, SafeAreaView, StatusBar, Text, View } from 'react-native'
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import About from './screen/About.jsx';
 import Article from './screen/Article.jsx';
 import Home from './screen/Home.jsx';
@@ -14,12 +14,18 @@ import StackNavi from './navigator/StackNavi.jsx';
 import DrawerNavi from './navigator/DrawerNavi.jsx';
 import BottomTabNavi from './navigator/BottomTabNavi.jsx';
 import TopTabNavi from './navigator/TopTabNavi.jsx';
+import SplashScreen from 'react-native-splash-screen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const App = ({ navigation }) => {
     // const navigation=useNavigation();
+    useEffect(()=>{
+        setTimeout(() => {
+            SplashScreen.hide();
+          }, 10);
+    },[])
     return (
         <>
         {/* <SafeAreaView> */}

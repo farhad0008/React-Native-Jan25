@@ -26,7 +26,8 @@
     "react-native-paper": "^5.13.1",
     "react-native-reanimated": "^3.16.7",
     "react-native-safe-area-context": "^5.1.0",
-    "react-native-screens": "^4.5.0"
+    "react-native-screens": "^4.5.0",
+    "react-native-splash-screen": "^3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
