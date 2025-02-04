@@ -39,7 +39,7 @@ const showTimePicker=()=>{
 }
   // Function to select image
   const selectImage = () => {
-    ImagePicker.launchImageLibrary({ mediaType: "photo" }, (response) => {
+    ImagePicker.launchImageLibrary({ mediaType: "photo",cameraType:'front',selectionLimit:1}, (response) => { //launchCamera()
       if (!response.didCancel && response.assets && response.assets.length > 0) {
         setProfilePic(response.assets[0].uri);
       }
