@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert, TouchableOpacity, Image, StyleSheet, ScrollView } from "react-native";
 import { Checkbox, RadioButton } from "react-native-paper";
 import * as ImagePicker from "react-native-image-picker";
 import DatePicker from "react-native-datepicker";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const SignupScreen = () => {
   const [name, setName] = useState("");
@@ -11,10 +12,31 @@ const SignupScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("Male");
-  const [dob, setDob] = useState("");
+  // const [dob, setDob] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  //date time picker need install  npm install @react-native-community/datetimepicker
+const[date,setDate]=useState(new Date())
+const[mode,setMode]=useState('date')
+const[show,setShow]=useState(false)
 
+const onChange=(event,selectedDate)=>{
+  const currentDate=selectedDate || date;
+  // setShow(Platform.OS === 'ios')
+  // setShow(Platform.OS === 'ios' ? false : true);
+  setDate(currentDate)
+  setShow(false);
+};
+const ShowMode=(currentMode)=>{
+  setShow(true);
+  setMode(currentMode)
+}
+const showDatePicker=()=>{
+  ShowMode('date')
+}
+const showTimePicker=()=>{
+  ShowMode('time')
+}
   // Function to select image
   const selectImage = () => {
     ImagePicker.launchImageLibrary({ mediaType: "photo" }, (response) => {
@@ -22,11 +44,11 @@ const SignupScreen = () => {
         setProfilePic(response.assets[0].uri);
       }
     });
-  };
+  }
 
   // Function to handle signup
   const handleSignup = () => {
-    if (!name || !email || !password || !confirmPassword || !phone || !dob || !termsAccepted) {
+    if (!name || !email || !password || !confirmPassword || !phone || !date || !termsAccepted) {
       Alert.alert("Error", "Please fill all fields and accept terms!");
       return;
     }
@@ -34,7 +56,6 @@ const SignupScreen = () => {
       Alert.alert("Error", "Passwords do not match!");
       return;
     }
-
     Alert.alert("Success", "Signup successful!");
   };
 
@@ -66,8 +87,19 @@ const SignupScreen = () => {
         </View>
       </RadioButton.Group>
 
-      <Text style={styles.label}>Date of Birth</Text>
-      <DatePicker style={styles.datePicker} date={dob} mode="date" placeholder="Select Date" format="YYYY-MM-DD" confirmBtnText="Confirm" cancelBtnText="Cancel" onDateChange={setDob} />
+      {/* <DatePicker style={styles.datePicker} date={dob} mode="date" placeholder="Select Date" format="YYYY-MM-DD" confirmBtnText="Confirm" cancelBtnText="Cancel" onDateChange={setDob} /> */} */
+       <Text style={styles.label}>Date of Birth</Text>
+       <Button title="Select date of Birth" onPress={showDatePicker} />
+    {show &&(
+    <DateTimePicker 
+        testID="datetimepicker"
+        value={date}
+        mode={mode}
+        display="default"
+        onChange={onChange}
+        is24Hour={true}
+    />)}
+
 
       <Text style={styles.label}>Profile Picture</Text>
       <TouchableOpacity style={styles.imagePicker} onPress={selectImage}>
