@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { Button, StatusBar, Text, View } from 'react-native'
+import { Button, SafeAreaView, StatusBar, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import About from './screen/About.jsx';
 import Article from './screen/Article.jsx';
@@ -22,7 +22,7 @@ const App = ({ navigation }) => {
     // const navigation=useNavigation();
     return (
         <>
-
+        {/* <SafeAreaView> */}
             <StatusBar
             backgroundColor="#b3e6ff" // Background color of the status bar
             barStyle="dark-content"  //light-content ->white color Text and icon color style
@@ -70,6 +70,7 @@ const App = ({ navigation }) => {
                     <Tab.Screen name='About' component={About}/>
                 </Tab.Navigator>
             </NavigationContainer> */}
+        {/* </SafeAreaView> */}
         </>
     )
 }

@@ -1,5 +1,5 @@
  import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, Image, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TextInput, Button, Alert, TouchableOpacity, Image, StyleSheet, ScrollView,Slider } from "react-native";
 import { Checkbox, RadioButton } from "react-native-paper";
 import * as ImagePicker from "react-native-image-picker";
 import DatePicker from "react-native-datepicker";
@@ -38,13 +38,22 @@ const showTimePicker=()=>{
   ShowMode('time')
 }
   // Function to select image
-  const selectImage = () => {
-    ImagePicker.launchImageLibrary({ mediaType: "photo",cameraType:'front',selectionLimit:1}, (response) => { //launchCamera()
-      if (!response.didCancel && response.assets && response.assets.length > 0) {
-        setProfilePic(response.assets[0].uri);
-      }
-    });
-  }
+  // const selectImage = () => {
+  //   ImagePicker.launchImageLibrary({ mediaType: "photo",cameraType:'front',selectionLimit:1}, (response) => { //launchCamera()
+  //     if (!response.didCancel && response.assets && response.assets.length > 0) {
+  //       setProfilePic(response.assets[0].uri);
+  //     }
+  //   });
+  // }
+
+  // another way to images 
+  const selectImage = async () => {
+    const result = await ImagePicker.launchImageLibrary({ mediaType: "photo", cameraType: 'front', selectionLimit: 1 });
+    if (!result.didCancel && result.assets && result.assets.length > 0) {
+      setProfilePic(result.assets[0].uri);
+    }
+  };
+  console.log(profilePic);
 
   // Function to handle signup
   const handleSignup = () => {
@@ -87,7 +96,7 @@ const showTimePicker=()=>{
         </View>
       </RadioButton.Group>
 
-      {/* <DatePicker style={styles.datePicker} date={dob} mode="date" placeholder="Select Date" format="YYYY-MM-DD" confirmBtnText="Confirm" cancelBtnText="Cancel" onDateChange={setDob} /> */} */
+      {/* <DatePicker style={styles.datePicker} date={dob} mode="date" placeholder="Select Date" format="YYYY-MM-DD" confirmBtnText="Confirm" cancelBtnText="Cancel" onDateChange={setDob} /> */}
        <Text style={styles.label}>Date of Birth</Text>
        <Button title="Select date of Birth" onPress={showDatePicker} />
     {show &&(
@@ -112,6 +121,7 @@ const showTimePicker=()=>{
       </View>
 
       <Button title="Signup" onPress={handleSignup} />
+      {/* <Slider minimumValue={0} maximumValue={100}/> */}
     </ScrollView>
   );
 };

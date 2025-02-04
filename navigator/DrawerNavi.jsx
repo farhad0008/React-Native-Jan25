@@ -1,5 +1,5 @@
 //https://reactnavigation.org/docs/drawer-navigator
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,Image } from 'react-native'
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,6 +17,7 @@ const DrawerNavi = () => {
     return (
     <>
         <Drawer.Navigator>
+          {/* <Text>hello:</Text> */}
             <Drawer.Screen name='Home' component={Home} />
             <Drawer.Screen name='About' component={About} />
             <Drawer.Screen name='Article' component={Article} />
