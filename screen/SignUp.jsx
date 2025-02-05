@@ -1,9 +1,10 @@
  import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, Image, StyleSheet, ScrollView,Slider } from "react-native";
+import { View, Text, TextInput, Button, Alert, TouchableOpacity, Image, StyleSheet, ScrollView,Slider,Platform,PermissionsAndroid } from "react-native";
 import { Checkbox, RadioButton } from "react-native-paper";
 import * as ImagePicker from "react-native-image-picker";
 import DatePicker from "react-native-datepicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {request, PERMISSIONS} from 'react-native-permissions';
 
 const SignupScreen = () => {
   const [name, setName] = useState("");
@@ -46,14 +47,54 @@ const showTimePicker=()=>{
   //   });
   // }
 
-  // another way to images 
-  const selectImage = async () => {
-    const result = await ImagePicker.launchImageLibrary({ mediaType: "photo", cameraType: 'front', selectionLimit: 1 });
-    if (!result.didCancel && result.assets && result.assets.length > 0) {
-      setProfilePic(result.assets[0].uri);
+    // Function to request camera permission
+    const requestCameraPermission = async () => {
+      console.log("requestCameraPermission")
+      if (Platform.OS === "android") {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: "Camera Permission",
+            message: "This app needs access to your camera to take pictures.",
+            buttonNeutral: "Ask Me Later",
+            buttonNegative: "Cancel",
+            buttonPositive: "OK",
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } else {
+        const result = await request(PERMISSIONS.IOS.CAMERA);
+        return result === RESULTS.GRANTED;
+      }
     }
-  };
-  console.log(profilePic);
+
+    const selectImage = async () => {
+      // console.log("selectImage")
+      const hasPermission = await requestCameraPermission();
+      if (!hasPermission) {
+        Alert.alert("Permission Denied", "Camera access is required to take pictures.");
+        return;
+      }
+  
+      const result = await ImagePicker.launchCamera({
+        mediaType: "photo",
+        cameraType: "front",
+        selectionLimit: 1,
+      });
+  
+      if (!result.didCancel && result.assets && result.assets.length > 0) {
+        setProfilePic(result.assets[0].uri);
+      }
+    }
+
+  // another way to images 
+  // const selectImage = async () => {
+  //   const result = await ImagePicker.launchCamera({ mediaType: "photo", cameraType: 'front', selectionLimit: 1 });//launchImageLibrary 
+  //   if (!result.didCancel && result.assets && result.assets.length > 0) {
+  //     setProfilePic(result.assets[0].uri);
+  //   }
+  // };
+  // console.log(profilePic);
 
   // Function to handle signup
   const handleSignup = () => {
