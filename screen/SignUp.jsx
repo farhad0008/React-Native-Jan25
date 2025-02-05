@@ -1,10 +1,10 @@
- import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, Image, StyleSheet, ScrollView,Slider,Platform,PermissionsAndroid } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, Alert, TouchableOpacity, Image, StyleSheet, ScrollView, Slider, Platform, PermissionsAndroid } from "react-native";
 import { Checkbox, RadioButton } from "react-native-paper";
 import * as ImagePicker from "react-native-image-picker";
 import DatePicker from "react-native-datepicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {request, PERMISSIONS} from 'react-native-permissions';
+import { request, PERMISSIONS ,RESULTS } from 'react-native-permissions';
 
 const SignupScreen = () => {
   const [name, setName] = useState("");
@@ -17,27 +17,27 @@ const SignupScreen = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
   //date time picker need install  npm install @react-native-community/datetimepicker
-const[date,setDate]=useState(new Date())
-const[mode,setMode]=useState('date')
-const[show,setShow]=useState(false)
+  const [date, setDate] = useState(new Date())
+  const [mode, setMode] = useState('date')
+  const [show, setShow] = useState(false)
 
-const onChange=(event,selectedDate)=>{
-  const currentDate=selectedDate || date;
-  // setShow(Platform.OS === 'ios')
-  // setShow(Platform.OS === 'ios' ? false : true);
-  setDate(currentDate)
-  setShow(false);
-};
-const ShowMode=(currentMode)=>{
-  setShow(true);
-  setMode(currentMode)
-}
-const showDatePicker=()=>{
-  ShowMode('date')
-}
-const showTimePicker=()=>{
-  ShowMode('time')
-}
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    // setShow(Platform.OS === 'ios')
+    // setShow(Platform.OS === 'ios' ? false : true);
+    setDate(currentDate)
+    setShow(false);
+  };
+  const ShowMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode)
+  }
+  const showDatePicker = () => {
+    ShowMode('date')
+  }
+  const showTimePicker = () => {
+    ShowMode('time')
+  }
   // Function to select image
   // const selectImage = () => {
   //   ImagePicker.launchImageLibrary({ mediaType: "photo",cameraType:'front',selectionLimit:1}, (response) => { //launchCamera()
@@ -47,45 +47,91 @@ const showTimePicker=()=>{
   //   });
   // }
 
-    // Function to request camera permission
-    const requestCameraPermission = async () => {
-      console.log("requestCameraPermission")
-      if (Platform.OS === "android") {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-          {
-            title: "Camera Permission",
-            message: "This app needs access to your camera to take pictures.",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
-        return granted === PermissionsAndroid.RESULTS.GRANTED;
-      } else {
-        const result = await request(PERMISSIONS.IOS.CAMERA);
-        return result === RESULTS.GRANTED;
-      }
-    }
+  // Function to request camera permission
+  // const requestCameraPermission = async () => {
+  //   // console.log("requestCameraPermission")
+  //   if (Platform.OS === "android") {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.CAMERA,
+  //       {
+  //         title: "Camera Permission",
+  //         message: "This app needs access to your camera to take pictures.",
+  //         buttonNeutral: "Ask Me Later",
+  //         buttonNegative: "Cancel",
+  //         buttonPositive: "OK",
+  //       }
+  //     );
+  //     return granted === PermissionsAndroid.RESULTS.GRANTED;
+  //   } else {
+  //     const result = await request(PERMISSIONS.IOS.CAMERA);
+  //     return result === RESULTS.GRANTED;
+  //   }
+  // }
 
-    const selectImage = async () => {
-      // console.log("selectImage")
-      const hasPermission = await requestCameraPermission();
-      if (!hasPermission) {
-        Alert.alert("Permission Denied", "Camera access is required to take pictures.");
-        return;
-      }
+  //function to request media Gallery:
+  // const requestGalleryPermission = async () => {
+  //   // console.log("requestCameraPermission")
+  //   if (Platform.OS === "android") {
+  //     const permission =
+  //       Platform.Version >= 33 ? PERMISSIONS.ANDROID.READ_MEDIA_IMAGES : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+  //     const granted = await PermissionsAndroid.request(permission,
+  //       {
+  //         title: "Gallery Permission",
+  //         message: "This app needs access to your Gallery to take pictures.",
+  //         buttonNeutral: "Ask Me Later",
+  //         buttonNegative: "Cancel",
+  //         buttonPositive: "OK",
+  //       }
+  //     );
+  //     console.log(granted)
+  //     return granted === PermissionsAndroid.RESULTS.GRANTED;
+  //   } else {
+  //     const result = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+  //     return result === RESULTS.GRANTED;
+  //   }
+  // }
+  const requestGalleryPermission = async () => {
+    // const androidVersion = parseInt(Platform.Version, 10);
+    const permission = Platform.Version >=33
+    // androidVersion >= 33
+        ? PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+        : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
   
-      const result = await ImagePicker.launchCamera({
-        mediaType: "photo",
-        cameraType: "front",
-        selectionLimit: 1,
-      });
+    const result = await request(Platform.OS === "android" ? permission : PERMISSIONS.IOS.PHOTO_LIBRARY);
+    return result === RESULTS.GRANTED;
+  }
   
-      if (!result.didCancel && result.assets && result.assets.length > 0) {
-        setProfilePic(result.assets[0].uri);
-      }
+  const requestCameraPermission = async()=>{
+    const result = await request(Platform.OS==="android"? PERMISSIONS.ANDROID.CAMERA:PERMISSIONS.IOS.CAMERA);
+    // const result = await request(Platform.OS === "android" ? PERMISSIONS.ANDROID.READ_CALENDAR : PERMISSIONS.IOS.CALENDARS);
+    // const result = await request(PERMISSIONS.IOS.NOTIFICATIONS);//Android: Not required explicitly, handled by Firebase.
+    // const result = await request(Platform.OS === "android" ? PERMISSIONS.ANDROID.BLUETOOTH_CONNECT : PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL);
+    // const result = await request(Platform.OS === "android" ? PERMISSIONS.ANDROID.READ_CONTACTS : PERMISSIONS.IOS.CONTACTS);
+    // const result = await request(Platform.OS === "android" ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION  : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+    // const result = await request(Platform.OS === "android" ? PERMISSIONS.ANDROID.RECORD_AUDIO   : PERMISSIONS.IOS.MICROPHONE);
+  
+    return result===RESULTS.GRANTED;
+  }
+
+  const selectImage = async () => {
+    // console.log("selectImage")
+    const hasPermission = await requestGalleryPermission();
+    // const hasPermission = await requestCameraPermission();
+    console.log(hasPermission)
+    if (!hasPermission) {
+      Alert.alert("Permission Denied", "Camera access is required to take pictures.");
+      return;
     }
+    const result = await ImagePicker.launchImageLibrary({//launchCamera 
+      mediaType: "photo",//video
+      cameraType: "front",
+      selectionLimit: 1,
+    });
+    console.log(result);
+    if (!result.didCancel && result.assets && result.assets.length > 0) {
+      setProfilePic(result.assets[0].uri);
+    }
+  }
 
   // another way to images 
   // const selectImage = async () => {
@@ -138,17 +184,17 @@ const showTimePicker=()=>{
       </RadioButton.Group>
 
       {/* <DatePicker style={styles.datePicker} date={dob} mode="date" placeholder="Select Date" format="YYYY-MM-DD" confirmBtnText="Confirm" cancelBtnText="Cancel" onDateChange={setDob} /> */}
-       <Text style={styles.label}>Date of Birth</Text>
-       <Button title="Select date of Birth" onPress={showDatePicker} />
-    {show &&(
-    <DateTimePicker 
-        testID="datetimepicker"
-        value={date}
-        mode={mode}
-        display="default"
-        onChange={onChange}
-        is24Hour={true}
-    />)}
+      <Text style={styles.label}>Date of Birth</Text>
+      <Button title="Select date of Birth" onPress={showDatePicker} />
+      {show && (
+        <DateTimePicker
+          testID="datetimepicker"
+          value={date}
+          mode={mode}
+          display="default"
+          onChange={onChange}
+          is24Hour={true}
+        />)}
 
 
       <Text style={styles.label}>Profile Picture</Text>
