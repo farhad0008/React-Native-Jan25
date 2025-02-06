@@ -5,27 +5,53 @@ import * as ImagePicker from "react-native-image-picker";
 import DatePicker from "react-native-datepicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { request, PERMISSIONS ,RESULTS } from 'react-native-permissions';
+import DropDownPicker from "react-native-dropdown-picker";
+import UserDetails from "./UserDetails";
 
-const SignupScreen = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState("Male");
+const SignupScreen = ({navigation}) => {
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [gender, setGender] = useState("Male");
   // const [dob, setDob] = useState("");
-  const [profilePic, setProfilePic] = useState(null);
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  // const [profilePic, setProfilePic] = useState(null);
   //date time picker need install  npm install @react-native-community/datetimepicker
   const [date, setDate] = useState(new Date())
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
+  // dropdown npm install react-native-dropdown-picker
+  const [open, setOpen] = useState(false);
+  const [country, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "India", value: "India" },
+    { label: "America", value: "America" },
+    { label: "Canada", value: "Canada" },
+    { label: "Dubai", value: "Dubai" },
+  ]);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  
+  const[userData,setUserData]=useState({
+    name:"",
+    email:"",
+    password:"",
+    confirmPassword:"",
+    phone:"",
+    gender:"Male",
+    profilePic:null,
+    // country:null
+  })
+  const[arr,setArr]=useState([])
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+  const onChange1 = (event, selectedDate) => {
+    // const currentDate = selectedDate || date;
     // setShow(Platform.OS === 'ios')
     // setShow(Platform.OS === 'ios' ? false : true);
-    setDate(currentDate)
+    if (selectedDate) {
+      // setUserData((prevState) => ({ ...prevState, dob: selectedDate }));
+      setDate(selectedDate)
+    }
     setShow(false);
   };
   const ShowMode = (currentMode) => {
@@ -129,7 +155,8 @@ const SignupScreen = () => {
     });
     console.log(result);
     if (!result.didCancel && result.assets && result.assets.length > 0) {
-      setProfilePic(result.assets[0].uri);
+      // setProfilePic(result.assets[0].uri);
+      setUserData({...userData,profilePic:result.assets[0].uri})
     }
   }
 
@@ -144,29 +171,43 @@ const SignupScreen = () => {
 
   // Function to handle signup
   const handleSignup = () => {
-    if (!name || !email || !password || !confirmPassword || !phone || !date || !termsAccepted) {
-      Alert.alert("Error", "Please fill all fields and accept terms!");
-      return;
-    }
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match!");
-      return;
-    }
-    Alert.alert("Success", "Signup successful!");
+    // userData["country"]=country;
+    // userData["dob"]=date.toLocaleDateString();
+    setUserData((prev) => ({
+      ...prev,
+      country: country,
+      dob: date.toLocaleDateString(),
+    }));
+    console.log(userData)
+    // console.log(userData.dob.toLocaleDateString())
+
+    // if (!userData.name || !userData.email || !userData.password || !userData.confirmPassword || !userData.phone || !userData.dob || !termsAccepted) {
+    //   Alert.alert("Error", "Please fill all fields and accept terms!");
+    //   return;
+    // }
+    // if (userData.password !== userData.confirmPassword) {
+    //   Alert.alert("Error", "Passwords do not match!");
+    //   return;
+    // }
+    navigation.navigate('UserDetails', { user: { ...userData, country, dob: date.toLocaleDateString() } });
+    // navigation.navigate('SignUp', { screen: 'UserDetails', params: { user:  { ...userData, country, dob: date.toLocaleDateString() } } });
+
+    // navigation.navigate('UserDetails', { user: userData })
+    // Alert.alert("Success", "Signup successful!");
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Signup</Text>
 
-      <TextInput style={styles.input} placeholder="Full Name" value={name} onChangeText={setName} />
-      <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" value={email} onChangeText={setEmail} />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
-      <TextInput style={styles.input} placeholder="Confirm Password" secureTextEntry value={confirmPassword} onChangeText={setConfirmPassword} />
-      <TextInput style={styles.input} placeholder="Phone Number" keyboardType="phone-pad" value={phone} onChangeText={setPhone} />
+      <TextInput style={styles.input} placeholder="Full Name" value={userData.name} onChangeText={(val)=>setUserData({...userData,name:val})} />
+      <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" value={userData.email} onChangeText={(val)=>setUserData({...userData,email:val})} />
+      <TextInput style={styles.input} placeholder="Password" secureTextEntry value={userData.password} onChangeText={(val)=>setUserData({...userData,password:val})} />
+      <TextInput style={styles.input} placeholder="Confirm Password" secureTextEntry value={userData.confirmPassword} onChangeText={(val)=>setUserData({...userData,confirmPassword:val})} />
+      <TextInput style={styles.input} placeholder="Phone Number" keyboardType="phone-pad" value={userData.phone} onChangeText={(val)=>setUserData({...userData,phone:val})} />
 
       <Text style={styles.label}>Gender</Text>
-      <RadioButton.Group onValueChange={setGender} value={gender}>
+      <RadioButton.Group onValueChange={(val)=>setUserData({...userData,gender:val})} value={userData.gender}>
         <View style={styles.radioContainer}>
           <View style={styles.radio}>
             <RadioButton value="Male" />
@@ -182,6 +223,23 @@ const SignupScreen = () => {
           </View>
         </View>
       </RadioButton.Group>
+      {/* DropDownPicker */}
+
+      <View style={styles.container}>
+        <Text style={styles.label}>Select a Fruit:</Text>
+        <DropDownPicker  
+        open={open}
+        setOpen={setOpen}
+        value={country}
+        setValue={setValue}
+        items={items}
+        setItems={setItems}
+        placeholder="Select Contry"
+        containerStyle={{ width: 250 }}
+        style={{ backgroundColor: "#fafafa" }}
+        />
+        {/* <Text style={styles.resultText}>Selected: {country || "None"}</Text> */}
+      </View>
 
       {/* <DatePicker style={styles.datePicker} date={dob} mode="date" placeholder="Select Date" format="YYYY-MM-DD" confirmBtnText="Confirm" cancelBtnText="Cancel" onDateChange={setDob} /> */}
       <Text style={styles.label}>Date of Birth</Text>
@@ -192,14 +250,14 @@ const SignupScreen = () => {
           value={date}
           mode={mode}
           display="default"
-          onChange={onChange}
+          onChange={onChange1}
           is24Hour={true}
         />)}
 
 
       <Text style={styles.label}>Profile Picture</Text>
       <TouchableOpacity style={styles.imagePicker} onPress={selectImage}>
-        {profilePic ? <Image source={{ uri: profilePic }} style={styles.image} /> : <Text>Select Image</Text>}
+        {userData.profilePic ? <Image source={{ uri: userData.profilePic }} style={styles.image} /> : <Text>Select Image</Text>}
       </TouchableOpacity>
 
       <View style={styles.checkboxContainer}>
@@ -209,6 +267,7 @@ const SignupScreen = () => {
 
       <Button title="Signup" onPress={handleSignup} />
       {/* <Slider minimumValue={0} maximumValue={100}/> */}
+      <Text>{arr}</Text>
     </ScrollView>
   );
 };
@@ -224,6 +283,11 @@ const styles = StyleSheet.create({
   imagePicker: { backgroundColor: "#ddd", padding: 15, alignItems: "center", borderRadius: 10, marginVertical: 10 },
   image: { width: 100, height: 100, borderRadius: 50 },
   checkboxContainer: { flexDirection: "row", alignItems: "center", marginVertical: 10 },
+
+    dropDowncontainer: { flex: 1, alignItems: "center", justifyContent: "center" },
+    dropDownlabel: { fontSize: 18, marginBottom: 10 },
+    resultText: { marginTop: 20, fontSize: 16, fontWeight: "bold" },
+
 });
 
 export default SignupScreen;
