@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { Button, SafeAreaView, StatusBar, Text, View } from 'react-native'
+import { Button, SafeAreaView,ScrollView, StatusBar, Text, View } from 'react-native'
 import React, { Component, useEffect } from 'react'
 import About from './screen/About.jsx';
 import Article from './screen/Article.jsx';
