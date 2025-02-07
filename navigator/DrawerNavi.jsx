@@ -12,6 +12,7 @@ import TopTabNavi from './TopTabNavi';
 import BottomSheet from './BottomSheet';
 import SignUp from '../screen/SignUp';
 import UserDetails from '../screen/UserDetails';
+import HomeRedux from '../redux/HomeRedux';
 
 const DrawerNavi = () => {
   const Drawer=createDrawerNavigator();
@@ -23,6 +24,7 @@ const DrawerNavi = () => {
             <Drawer.Screen name='About' component={About} />
             <Drawer.Screen name='Article' component={Article} />
             <Drawer.Screen name='UserDetails' component={UserDetails} />
+            <Drawer.Screen name='HomeRedux' component={HomeRedux} />
             <Drawer.Screen name='StackNavi' component={StackNavi} options={{headerShown:false}} />
             <Drawer.Screen name='BottomTabNavi' component={BottomTabNavi} options={{headerShown:false}} />
             <Drawer.Screen name='TopTabNavi' component={TopTabNavi} options={{headerShown:false}} />
