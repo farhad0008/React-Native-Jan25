@@ -8,6 +8,7 @@ import DrawerNavi from '../navigator/DrawerNavi.jsx';
 import SignUp from './SignUp.jsx';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeRedux from '../redux/HomeRedux.jsx';
+import TodoHome from '../reduxToolkit/TodoHome.jsx';
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Home = () => {
@@ -25,6 +26,7 @@ const Home = () => {
       <View style={{ marginTop: 15,width:'50%' }}><Button title='StackNavi' onPress={() => navigation.navigate('StackNavi')} /></View>
       <View style={{ marginTop: 15,width:'50%' }}><Button title='BottomTabNavi' onPress={() => navigation.navigate('BottomTabNavi')} /></View>
       <View style={{ marginTop: 15,width:'50%' }}><Button title='BottomSheet' onPress={() => navigation.navigate('BottomSheet')} /></View>
+      <View style={{ marginTop: 15,width:'50%' }}><Button title='TodoHome' onPress={() => navigation.navigate('TodoHome')} /></View>
       {/*  */}
      </View>
      </ScrollView>

@@ -8,7 +8,6 @@ const Product = ({ item }) => {
     const handleRemoveFromCart=(item)=>{
        dispatch(removeFromCart(item.name))
    }
-
     const handleAddToCart=(item)=>{
          dispatch(addToCart(item))
     }
@@ -39,7 +38,7 @@ const Product = ({ item }) => {
                 }
             </ScrollView>
         </View>
-    )
+            )
 }
 
 export default Product

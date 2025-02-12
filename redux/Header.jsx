@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -11,7 +11,13 @@ const Header = () => {
     },[cartData])
   return (
     <View>
-      <Text style={{fontSize:30,textAlign:'right',backgroundColor:'tomato',padding:10}}>{cartItem}</Text>
+      
+      <Text style={{fontSize:20,textAlign:'right',backgroundColor:'tomato',padding:10}}>
+      <TouchableOpacity>
+        <Text style={{fontSize:20}}>🛒</Text>
+      </TouchableOpacity>
+        {cartItem}
+        </Text>
     </View>
   )
 }
