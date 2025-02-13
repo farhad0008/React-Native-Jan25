@@ -32,6 +32,7 @@
     "react-native-safe-area-context": "^5.1.0",
     "react-native-screens": "^4.5.0",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-super-grid": "^6.0.1",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1"
   },
