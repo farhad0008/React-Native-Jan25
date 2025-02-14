@@ -15,6 +15,7 @@ import UserDetails from '../screen/UserDetails';
 import HomeRedux from '../redux/HomeRedux';
 import TodoHome from '../reduxToolkit/TodoHome'
 import ProductList from '../reduxToolkit/ProductList';
+import CartDetails from '../reduxToolkit/CartDetails';
 
 const DrawerNavi = () => {
   const Drawer=createDrawerNavigator();
@@ -29,6 +30,7 @@ const DrawerNavi = () => {
             <Drawer.Screen name='HomeRedux' component={HomeRedux} />
             <Drawer.Screen name='TodoHome' component={TodoHome} />
             <Drawer.Screen name='ProductList' component={ProductList} />
+            <Drawer.Screen name='CartDetails' component={CartDetails} />
             <Drawer.Screen name='StackNavi' component={StackNavi} options={{headerShown:false}} />
             <Drawer.Screen name='BottomTabNavi' component={BottomTabNavi} options={{headerShown:false}} />
             <Drawer.Screen name='TopTabNavi' component={TopTabNavi} options={{headerShown:false}} />
