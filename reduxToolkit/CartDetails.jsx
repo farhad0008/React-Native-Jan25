@@ -1,5 +1,5 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import ProductList from './ProductList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,9 @@ import { DecreamentQuantity, IncreamentQuantity, removeCartItem } from './slice/
 const CartDetails = () => {
   const navigation = useNavigation({ navigation })
   const cartItem = useSelector((state) => state.cartItem);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
+  // const[subTotal,setsubTotal]=useState(0)
+  const subTotal = cartItem.reduce((acc, item) => acc + item.price * item.quantity, 0);
   return (
     <>
       <SafeAreaView>
@@ -18,7 +20,7 @@ const CartDetails = () => {
             <Text style={{ fontSize: 20, marginLeft: 5 }}>{'<'}Back</Text>
           </TouchableOpacity>
         </View>
-        {/* ---Content--- */}
+        {/* ---Content--- */} 
         <View style={{ padding: 5, backgroundColor: "#fff" }}>
           {/* Header */}
           <View style={{ flexDirection: 'row', borderBottomWidth: 2, borderColor: 'black', paddingVertical: 8, backgroundColor: "#f1f1f1" }}>
@@ -41,8 +43,8 @@ const CartDetails = () => {
                 {/* Quantity Controls */}
                 <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                   <TouchableOpacity style={{ height: 35, width: 35, backgroundColor: 'green', justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginHorizontal: 5 }}
-                
-                  onPress={()=>dispatch(DecreamentQuantity(ind))}
+
+                    onPress={() => dispatch(DecreamentQuantity(ind))}
                   >
                     <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'white' }}>-</Text>
                   </TouchableOpacity>
@@ -50,7 +52,7 @@ const CartDetails = () => {
                   <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{val.quantity}</Text>
 
                   <TouchableOpacity style={{ height: 35, width: 35, backgroundColor: 'green', justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginHorizontal: 5 }}
-                    onPress={()=>dispatch(IncreamentQuantity(ind))}
+                    onPress={() => dispatch(IncreamentQuantity(ind))}
                   >
                     <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'white' }}>+</Text>
                   </TouchableOpacity>
@@ -58,13 +60,27 @@ const CartDetails = () => {
 
                 <Text style={{ flex: 1, textAlign: 'center' }}>${(val.price * val.quantity).toFixed(2)}</Text>
                 <TouchableOpacity style={{ flex: 0.5, textAlign: 'center' }}
-                onPress={()=>dispatch(removeCartItem(ind))}
+                  onPress={() => dispatch(removeCartItem(ind))}
                 >
-                    <Text style={{ fontSize: 20,textAlign: 'center'}}>❌</Text>
+                  <Text style={{ fontSize: 20, textAlign: 'center' }}>❌</Text>
                 </TouchableOpacity>
+
               </View>
             ))
           }
+          <View style={{ paddingVertical: 10, borderTopWidth: 1, borderColor: 'black', marginTop: 10 }}>
+            {
+              cartItem.length > 0 ? (
+                <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'right', marginRight: 5 }}>
+                  Subtotal: ${subTotal.toFixed(2)}
+                </Text>
+              ) : (
+                <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginTop: 10 }}>
+                  No data yet
+                </Text>
+              )
+            }
+          </View>
         </View>
 
       </SafeAreaView>
