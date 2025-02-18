@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { addPost, fetchPost } from "./slice/postSliceThunk";
 const UserScreen = () => {
   const dispatch = useDispatch();
-  const { posts, status } = useSelector((state) => state.posts);
-  console.log('status'.status)
+  const { posts, status,error } = useSelector((state) => state.posts);
+  console.log('error'.error)
   console.log('post',posts)
 
   useEffect(() => {
@@ -26,8 +26,8 @@ const UserScreen = () => {
       ) : (
         <FlatList
           data={posts}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <Text>{item.id}</Text>}
+          keyExtractor={(item,index) =>index.toString()}
+          renderItem={({ item ,index}) =><View style={{justifyContent:'center',alignItems:'center'}}><Text>{item.id}</Text><Text>{item.title}</Text></View> }
         />
       )}
     </View>
