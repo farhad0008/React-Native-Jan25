@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeRedux from '../redux/HomeRedux.jsx';
 import TodoHome from '../reduxToolkit/TodoHome.jsx';
 import ProductList from '../reduxToolkit/ProductList.jsx';
+import Login from './Login.jsx';
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Home = () => {
@@ -23,6 +24,7 @@ const Home = () => {
       <View style={{ marginTop: 15,width:'50%' }}><Button title='Article' onPress={() => navigation.navigate(Article)} /></View>
       <View style={{ marginTop: 15,width:'50%' }}><Button title='HomeRedux' onPress={() => navigation.navigate(HomeRedux)} /></View>
       <View style={{ marginTop: 15,width:'50%' }}><Button title='SignUp' onPress={() => navigation.navigate('SignUp')} /></View>
+      <View style={{ marginTop: 15,width:'50%' }}><Button title='Login' onPress={() => navigation.navigate('Login')} /></View>
       <View style={{ marginTop: 15,width:'50%' }}><Button title='TopTabNavi' onPress={() => navigation.navigate('TopTabNavi')} /></View>
       <View style={{ marginTop: 15,width:'50%' }}><Button title='StackNavi' onPress={() => navigation.navigate('StackNavi')} /></View>
       <View style={{ marginTop: 15,width:'50%' }}><Button title='BottomTabNavi' onPress={() => navigation.navigate('BottomTabNavi')} /></View>

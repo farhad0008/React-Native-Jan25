@@ -16,7 +16,7 @@ const cartSlice = createSlice({
                 // If item doesn't exist, add it to the state
                 state.push({ ...action.payload, quantity: 1 });
             }
-           console.log(JSON.parse(JSON.stringify(state)))
+        //    console.log(JSON.parse(JSON.stringify(state)))
         },
         IncreamentQuantity:(state,action)=>{
             state[action.payload] = {

@@ -1,5 +1,5 @@
 import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatGrid } from 'react-native-super-grid'
 import { AddToCart } from './slice/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,8 @@ import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer
 import { green } from 'react-native-reanimated/lib/typescript/Colors';
 import { useNavigation } from '@react-navigation/native';
 import CartDetails from './CartDetails';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Login from '../screen/Login';
 
 const ProductList = () => {
     const [product, setProduct] = useState([
@@ -35,22 +37,45 @@ const ProductList = () => {
             desc: 'Huwai Galaxy M05 (Mint Green, 4GB RAM, 64 GB Storage) | 50MP Dual Camera | Bigger 6.7" HD+ Display | 5000mAh Battery | 25W Fast Charging |'
         },
     ]);
+    const[userData,setuserData]=useState(null)
 
     const dispatch = useDispatch();
     const cartData = useSelector((state) => state.cartItem)
 
     const addToCart = (item) => {
         dispatch(AddToCart(item))
+        // checkUser()
     }
-    const navigation=useNavigation({navigation})
+
+    const checkUser = async () => {
+        // await AsyncStorage.removeItem('userToken')
+        // console.log("checkUser")
+        const response = await AsyncStorage.getItem('userToken')
+        if(response){
+            console.log(JSON.parse(response).username);
+            setuserData(JSON.parse(response))
+        }else{
+            navigation.navigate(Login);
+        }
+        // return response.json();
+    }
+    useEffect(()=>{
+        checkUser()
+    },[])
+    const navigation = useNavigation({ navigation })
 
     return (
         <>
-            
-            <View style={{ height: 50, width: '100%', backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'flex-end' }}>
-        <TouchableOpacity onPress={()=>navigation.navigate(CartDetails)}>
-                <Text style={{ paddingRight: 10, fontSize: 20 }}>cartItem:{cartData.length}</Text>
-        </TouchableOpacity>
+
+            <View style={{ height: 50, width: '100%', backgroundColor: 'skyblue',flexDirection:'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              {
+                  userData!==null?(
+                      <Text style={{paddingLeft:10,fontWeight:'bold',fontSize:20}}>Hi,{userData.username}</Text>
+                  ):null
+              } 
+                      <TouchableOpacity onPress={() => navigation.navigate(CartDetails)}>
+                    <Text style={{ paddingRight: 10, fontSize: 20 }}>cartItem:{cartData.length}</Text>
+                </TouchableOpacity>
             </View>
             <ScrollView>
             </ScrollView>
@@ -88,7 +113,7 @@ const ProductList = () => {
                                 style={{ flex: 1, height: 30, width: '100%', backgroundColor: 'green', justifyContent: 'center', alignItems: 'center', borderRadius: 15, marginBottom: 10 }}
                                 onPress={() => addToCart(item)}
                             >
-                                <Text style={{color:'white'}}>Add To Cart</Text>
+                                <Text style={{ color: 'white' }}>Add To Cart</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

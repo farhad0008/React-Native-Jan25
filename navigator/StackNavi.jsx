@@ -8,6 +8,7 @@ import Article from '../screen/Article';
 import About from '../screen/About';
 import SignUp from '../screen/SignUp';
 import CartDetails from '../reduxToolkit/CartDetails';
+import Login from '../screen/Login';
 
 const StackNavi = () => {
   const Stack = createNativeStackNavigator();
@@ -32,6 +33,9 @@ const StackNavi = () => {
         />
         <Stack.Screen name='Article' component={Article} />
         <Stack.Screen name='SignUp' component={SignUp} />
+        <Stack.Screen name='Login' component={Login} 
+         options={{ headerShown: true }}  //default true
+        />
         <Stack.Screen name='CartDetails' component={CartDetails} />
       </Stack.Navigator>
   )

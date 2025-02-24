@@ -80,7 +80,7 @@ const TodoHome = () => {
                 </View>
               </View>
             )}
-            keyboardDismissMode='on-drag'
+            keyboardDismissMode='on-drag' 
             />
         </View>
       </View>
