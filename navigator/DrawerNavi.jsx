@@ -19,6 +19,7 @@ import CartDetails from '../reduxToolkit/CartDetails';
 import Display_Data_Api from '../Api_practice/Display_Data_Api';
 import UserScreen from '../reduxToolkit/UserScreen';
 import Login from '../screen/Login';
+import RegisterMoprep from '../screen/RegisterMoprep';
 
 const DrawerNavi = () => {
   const Drawer=createDrawerNavigator();
@@ -42,6 +43,7 @@ const DrawerNavi = () => {
             <Drawer.Screen name='BottomSheet' component={BottomSheet} options={{headerShown:false}} />
             <Drawer.Screen name='SignUp' component={SignUp} options={{headerShown:false}} />
             <Drawer.Screen name='Login' component={Login} options={{headerShown:false}} />
+            <Drawer.Screen name='RegisterMoprep' component={RegisterMoprep} options={{headerShown:false}} />
         </Drawer.Navigator>
     </>
   )

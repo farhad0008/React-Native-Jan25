@@ -9,6 +9,7 @@ import About from '../screen/About';
 import SignUp from '../screen/SignUp';
 import CartDetails from '../reduxToolkit/CartDetails';
 import Login from '../screen/Login';
+import RegisterMoprep from '../screen/RegisterMoprep';
 
 const StackNavi = () => {
   const Stack = createNativeStackNavigator();
@@ -36,6 +37,7 @@ const StackNavi = () => {
         <Stack.Screen name='Login' component={Login} 
          options={{ headerShown: true }}  //default true
         />
+        <Stack.Screen name='RegisterMoprep' component={RegisterMoprep} />
         <Stack.Screen name='CartDetails' component={CartDetails} />
       </Stack.Navigator>
   )

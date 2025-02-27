@@ -52,8 +52,11 @@ const ProductList = () => {
         // console.log("checkUser")
         const response = await AsyncStorage.getItem('userToken')
         if(response){
-            console.log(JSON.parse(response).username);
-            setuserData(JSON.parse(response))
+            console.log("userToken--",JSON.parse(response));
+            
+            const userDetail = await AsyncStorage.getItem('userDetail')
+            console.log("userDetail--",userDetail)
+            setuserData(JSON.parse(userDetail))
         }else{
             navigation.navigate(Login);
         }
