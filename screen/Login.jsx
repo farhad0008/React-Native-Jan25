@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { loginPost } from '../reduxToolkit/slice/loginSliceThunk';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { AppImages } from '../assets/images';
+
 
 
 const Login = () => {
@@ -66,6 +67,7 @@ const Login = () => {
     };
 
     return (
+        <ScrollView>
         <View style={styles.container}>
             {/* App Logo */}
             <View style={{alignItems:'center',justifyContent:'center',flexDirection:'row',marginBottom:100}}>
@@ -103,7 +105,7 @@ const Login = () => {
                         secureTextEntry={shownPass}
                         value={password}
                         onChangeText={setPassword}
-                        
+
                     />
                     <TouchableOpacity
                         onPress={() => setShownPass(!shownPass)}
@@ -140,6 +142,7 @@ const Login = () => {
                 </TouchableOpacity>
             </View>
         </View>
+        </ScrollView>
     );
 };
 
