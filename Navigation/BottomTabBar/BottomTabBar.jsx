@@ -46,20 +46,20 @@ const BottomTabBar = () => {
         />
         <Tab.Screen name='YearWiseQuestion' component={YearWiseQuestion}
         options={{
-            tabBarLabel:"QBANK",
+            tabBarLabel:({focused})=><Text style={{textAlign:'center',fontSize:9,fontWeight:'bold',color:focused?'blue':'black'}} >YEAR WISE QUESTIONS</Text>,
             tabBarIcon :({color})=><AntDesign name="message1" color={color} size={25} />
         }}
         />
         <Tab.Screen name='Test' component={Test}
          options={{
-            tabBarLabel:"QBANK",
+            tabBarLabel:"Test",
             tabBarIcon :({color})=><AntDesign name="wallet" color={color} size={25} />
         }}
         
         />
         <Tab.Screen name='Profile' component={Profile}
          options={{
-            tabBarLabel:"QBANK",
+            tabBarLabel:"PROFILE",
             tabBarIcon :({color})=><AntDesign name="user" color={color} size={25} />
         }}
         />

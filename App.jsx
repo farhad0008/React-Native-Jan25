@@ -16,6 +16,7 @@ import BottomTabNavi from './navigator/BottomTabNavi.jsx';
 import TopTabNavi from './navigator/TopTabNavi.jsx';
 import SplashScreen from 'react-native-splash-screen';
 import BottomTabBar from './Navigation/BottomTabBar/BottomTabBar.jsx';
+import StackNavigator from './Navigation/StackBarNavigator/StackNavigator.js';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -39,7 +40,8 @@ const App = ({ navigation }) => {
             />
             <NavigationContainer>
                 {/* <DrawerNavi />  */}
-                <BottomTabBar />
+                <StackNavigator/>
+                {/* <BottomTabBar /> */}
             </NavigationContainer>
 
             {/* <NavigationContainer>
