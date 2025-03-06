@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Platform, Share, TextInput, RefreshControl, FlatList } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Platform, Share, TextInput, RefreshControl, FlatList ,Keyboard} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,7 +16,7 @@ const ChapterScreen = ({ route }) => {
 
     const { data } = route.params || {};
     const navigation = useNavigation();
-    console.log(data)
+    // console.log(data)
 
     const onShare = async () => {
         const url = Platform.OS == 'android' ? 'https://play.google.com/store/apps/details?id=com.moprep&pli=1' : 'https://apps.apple.com/us/app/moprep-upsc-cms/id6502982709';
@@ -51,7 +51,7 @@ const ChapterScreen = ({ route }) => {
 
             const result = await response.json(); // Convert response to JSON
             SetchapterData(result.result);
-            // console.log('Response Data:', result.result);
+            console.log('Response Data:', result.result);
 
             return result;
         } catch (error) {
@@ -194,14 +194,13 @@ const ChapterScreen = ({ route }) => {
                                 <TouchableOpacity
                                 key={index}
                                   onPress={() => {
-                                    // Keyboard.dismiss();
-                                    // navigation.navigate('TopicQuestionsScreen', {
-                                    //   data: item,
-                                    //   subject_id: item.subject_id,
-                                    //   chapter_id: item?.chapter_id,
-                                    //   topic_id: item?.topic_id,
-                                    //   chapterData: data,
-                                    // });
+                                    Keyboard.dismiss();
+                                    navigation.navigate('TopicQuestionsScreen', {
+                                        data: item,
+                                        subject_id: data.id,
+                                        chapter_id: item.chapter_id,
+                                        topic_id: item?.topic_id,
+                                      })
                                     SetsearchTopics([]);
                                     setSearchText('');
                                   }}>
@@ -324,9 +323,9 @@ const RenderChapterItem = ({ item, subject_id }) => {
     // const [chapterNumber, chapterTitle] = item.item.chapter_name.split(' - ');
     const [chapterNumber, chapterTitle] = item.item.chapter_name.split(' - ') || ["", ""];
     // console.log('item', item.item)
-    let cnt=1;
+
     return (
-        <View style={{ marginVertical: 10, flex: 1, }} key={cnt++}>
+        <View style={{ marginVertical: 10, flex: 1, }} key={''}>
             <View style={{ flexDirection: 'row' }}>
                 <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{chapterNumber}-{' '}</Text>
                 <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'rgba(9, 97, 245, 1)' }}>{chapterTitle}</Text>
@@ -339,10 +338,11 @@ const RenderChapterItem = ({ item, subject_id }) => {
                         navigation.navigate('TopicQuestionsScreen', {
                           data: topic,
                           subject_id: subject_id,
-                          chapter_id: item?.chapter_id,
+                          chapter_id: item?.item?.chapter_id,
                           topic_id: topic?.topic_id,
                         })
                     }
+                    key={index}
                     >
                     <View style={styles2.renderContaner}>
                         <View style={{ flexDirection: 'row' }}>  

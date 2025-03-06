@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Login from '../../screen/Login';
 import ChapterScreen from '../NavigationScreen/ChapterScreen';
 import BottomTabBar from '../BottomTabBar/BottomTabBar';
+import TopicQuestionsScreen from '../NavigationScreen/TopicQuestionsScreen';
+import QuestionScreen from '../QuestionScreen';
 
 
 const StackNavigator = () => {
@@ -20,6 +22,9 @@ const StackNavigator = () => {
         <Stack.Screen name='BottomTabBar' component={BottomTabBar} />
         <Stack.Screen name='Login' component={Login} />
         <Stack.Screen name='ChapterScreen' component={ChapterScreen} />
+        <Stack.Screen name='TopicQuestionsScreen' component={TopicQuestionsScreen} />
+        <Stack.Screen name='QuestionScreen' component={QuestionScreen} />
+
     </Stack.Navigator>
   )
 }

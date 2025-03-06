@@ -7,6 +7,7 @@ import * as Progress from 'react-native-progress';
 import { SliderBox } from 'react-native-image-slider-box';
 import { useNavigation } from '@react-navigation/native';
 import ChapterScreen from './ChapterScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI3IiwianRpIjoiODAzOGQyODNhMjgyOWM0ZWI3ZTEwMmQ3NDdmMmUyNGNkMWQ4ODlhNWE4ZjdmOThkN2MxYzMyODdkNTk1ZGFiMDQwZTM1MGU1NjEzOWU5MmMiLCJpYXQiOjE3NDA3MjcyOTEsIm5iZiI6MTc0MDcyNzI5MSwiZXhwIjoxNzcyMjYzMjkxLCJzdWIiOiIzMzQxIiwic2NvcGVzIjpbXX0.sd5wX_A4KG9mnoBOH9_8jZfBTWHT_XnqAMeaLvUaOyNls-pkAxIa7G_TjfoYtlOayXM6ExIPIioDnl8A0Sm19WYPCsNzYNGPT-3sFRoX0DWLbM6whwmh2Yon5-sQCHv0VsDCbdJBNuBZ_bO1mJFDSPcY1gbAXRc2_aJIhemFW7eQZfuyFYVM7CmYHBDF9Ke3j_OQOM0hJl_vdA14NKfM95Uv-7i-AlzD584k2iNg7BV4joLqeAyYv65icRbEYKcR78pVkEyGKsUwJrSKeRjIbKATRCdMVEwNVk6f_Srx1rOgnrQqbHfarAwKFxFW_mBsSCdV7_6yryO95ea2FiyDjEU6kwDZ7_XzXA18W1TLYbEm1NdyZU57i9PmVQZgi0pHP8dlcQLHTGzvjv5N_ihI1JgJ4rgF27w9jZ0id9zOUQjG27nmwGQBn_IrxVllkNqn1YrnQIamFpeOmlaazxfqCS-i7DcLD0HOPB-kgu7L6AtbaAaGcE3SdMA5TK_TUJUAXX6a-hjU4_d8J5UBpS5dXxQONhgH61hAICqWvJk772QTJ9FnEA--MMaEu5OqwFxqze9051cza6BnQiZ-PcD9hR7MMg87J6kw1XwmzI_F9w_PiBFMYdVRHb1YoCVDGd0K4TzkRi8XLWqym3LqzWX_rv4VBhteb_14aMOMBOVXQos"; // Replace with actual token
 const ScreenWidth = Dimensions.get('screen').width;
@@ -31,7 +32,7 @@ const HomeScreen = () => {
             }
 
             const data = await response.json();
-            console.log("dataImages...", data)
+            // console.log("dataImages...", data)
             setImageBanner(Array.isArray(data.result) ? data.result.map(item => item.image) : []);
             // if (data && Array.isArray(data.result)) {
             //     setImageBanner(data.result.map(item => item.image));
@@ -54,13 +55,14 @@ const HomeScreen = () => {
             );
             const data = await response.json();
             setUnComQueBan(data.result);
-            console.log('uncompletedQuestionBank', data);
+            // console.log('uncompletedQuestionBank', data);
         } catch (error) {
             console.error("Error fetching question banks:", error);
         }
     };
 
     useEffect(() => {
+        AsyncStorage.setItem('userToken',token)
         getImages();
 
         uncompletedQuestionBank();
@@ -80,8 +82,7 @@ const HomeScreen = () => {
     const QueBankOnPress = async (item) => {
         // await AsyncStorage.setItem('storeData', JSON.stringify(item))
         console.log("QueBankOnPress",item)
-        navigation.navigate("ChapterScreen",{data:item});
-        
+        navigation.navigate("ChapterScreen",{data:item});  
     }
 
     return (
@@ -150,7 +151,7 @@ const HomeScreen = () => {
                     <FlatList
                         scrollEnabled={false}
                         data={unComQueBan}
-                        renderItem={({ item }) => (
+                        renderItem={({ item ,index}) => (
                             <TouchableOpacity style={[{ flexDirection: 'row', alignItems: 'center', padding: 10, marginHorizontal: 3, marginBottom: 10 }, styles.shadowContainer]}
                                 // onPress={()=>QueBankOnPress(item)}
                                 onPress={async() => {
@@ -158,6 +159,7 @@ const HomeScreen = () => {
                                     navigation.navigate('ChapterScreen', {data: item})
                                 }
                             }
+                            key={index}
                             >
                                 <Image source={{ uri: item.image }} style={{ height: 50, width: 50, borderRadius: 10, marginRight: 10 }} />
                                 <View style={{ flex: 1 }}>
