@@ -85,13 +85,13 @@ const TopicQuestionsScreen = () => {
         }
     }
 
-    const StartResumeTest = async() => {
-        if(status === 'complete'){
-            try{
+    const StartResumeTest = async () => {
+        if (status === 'complete') {
+            try {
                 // const token = AsyncStorage.getItem('userToken');
-               
-                const response = fetch('https://test.moprep.in/api/chapterQuestionsDelete',{
-                    method:'POST',
+
+                const response = fetch('https://test.moprep.in/api/chapterQuestionsDelete', {
+                    method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${userToken}`,
                         'Content-Type': 'application/json', // Important for JSON data
@@ -105,24 +105,23 @@ const TopicQuestionsScreen = () => {
                 // const result = await response.json(); // Convert response to JSON
                 if (!response?.data?.error) {
                     navigation.navigate('QuestionScreen', {
-                      subject_id,
-                      chapter_id,
-                      topic_id,
-                      totalque: data?.questions,
-                      status: status,
-                      nextIndex: status == 'complete' ? 0 : nextIndex,
-                      chapterData: data,
-                      from: from,
+                        subject_id,
+                        chapter_id,
+                        topic_id,
+                        totalque: data?.questions,
+                        status: status,
+                        nextIndex: status == 'complete' ? 0 : nextIndex,
+                        chapterData: data,
+                        from: from,
                     });
-                  }else{
+                } else {
                     console.log('StartResumeTest Else response')
-                  }
-
-            }catch(e){
-                console.error("StartResumeTestError",e)
+                }
+            } catch (e) {
+                console.error("StartResumeTestError", e)
             }
-        }else{
-            
+        } else {
+
             navigation.navigate('QuestionScreen', {
                 subject_id,
                 chapter_id,
@@ -132,11 +131,11 @@ const TopicQuestionsScreen = () => {
                 nextIndex: status == 'complete' ? 0 : nextIndex,
                 chapterData: chapterData,
                 from: from,
-              });
-              
+            });
+
         }
     }
-    
+
 
     useEffect(() => {
         chapterQuestionFunc()
@@ -216,8 +215,8 @@ const TopicQuestionsScreen = () => {
                             />
                             <TouchableOpacity style={styles.button} onPress={StartResumeTest}>
                                 <Text style={styles.buttonText}>{
-                                    status == 'resume'? 'Resume Question Bank'
-                                        : status == 'complete'? 'Restart Question Bank': 'Start Question Bank'
+                                    status == 'resume' ? 'Resume Question Bank'
+                                        : status == 'complete' ? 'Restart Question Bank' : 'Start Question Bank'
                                 }</Text>
                                 <View style={styles.btnRound}>
                                     <Feather name={'arrow-right'} size={25} color={'black'} />

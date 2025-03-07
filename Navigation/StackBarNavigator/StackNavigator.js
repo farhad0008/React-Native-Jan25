@@ -6,6 +6,7 @@ import ChapterScreen from '../NavigationScreen/ChapterScreen';
 import BottomTabBar from '../BottomTabBar/BottomTabBar';
 import TopicQuestionsScreen from '../NavigationScreen/TopicQuestionsScreen';
 import QuestionScreen from '../QuestionScreen';
+import EditProfile from '../NavigationScreen/EditProfile';
 
 
 const StackNavigator = () => {
@@ -24,6 +25,7 @@ const StackNavigator = () => {
         <Stack.Screen name='ChapterScreen' component={ChapterScreen} />
         <Stack.Screen name='TopicQuestionsScreen' component={TopicQuestionsScreen} />
         <Stack.Screen name='QuestionScreen' component={QuestionScreen} />
+        <Stack.Screen name='EditProfile' component={EditProfile} />
 
     </Stack.Navigator>
   )
