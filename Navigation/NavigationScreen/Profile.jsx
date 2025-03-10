@@ -36,6 +36,7 @@ const Profile = () => {
   useEffect(() => {
     ProfileDetails();
   }, [focus])
+  
   useEffect(() => {
     ProfileDetails();
   }, [])
