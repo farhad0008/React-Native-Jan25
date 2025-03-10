@@ -7,6 +7,7 @@ import BottomTabBar from '../BottomTabBar/BottomTabBar';
 import TopicQuestionsScreen from '../NavigationScreen/TopicQuestionsScreen';
 import QuestionScreen from '../QuestionScreen';
 import EditProfile from '../NavigationScreen/EditProfile';
+import CourseScreen from '../NavigationScreen/CourseScreen';
 
 
 const StackNavigator = () => {
@@ -26,6 +27,12 @@ const StackNavigator = () => {
         <Stack.Screen name='TopicQuestionsScreen' component={TopicQuestionsScreen} />
         <Stack.Screen name='QuestionScreen' component={QuestionScreen} />
         <Stack.Screen name='EditProfile' component={EditProfile} />
+        <Stack.Screen name='CourseScreen' component={CourseScreen} 
+        options={{
+          headerTitle:'Courses',
+          headerShown: true,
+        }}
+        />
 
     </Stack.Navigator>
   )

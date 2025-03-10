@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, TextInput ,Platform} from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, TextInput ,Platform,Alert} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather';
@@ -20,13 +20,16 @@ const EditProfile = ({ route }) => {
         console.log(editprofileData);
         try {
             const token = await AsyncStorage.getItem('userToken');
+            // console.log(token);
+            
             const formData = new FormData();
     
+            // Ensure avatar is properly formatted for FormData
             if (editprofileData.avatar) {
-                const imgname = editprofileData.avatar.split('/').slice(-1)[0];
+                const imgname = editprofileData.avatar.split('/').pop(); // Extract filename
                 formData.append('image', {
-                    uri: editprofileData.avatar.uri, // Ensure this key is correct
-                    type: editprofileData.avatar.mime, 
+                    uri: editprofileData.avatar,  // `uri` should be a string
+                    type: 'image/jpeg', // Ensure correct MIME type
                     name: imgname,
                 });
             }
@@ -40,11 +43,11 @@ const EditProfile = ({ route }) => {
     
             const response = await fetch('https://test.moprep.in/api/updateUserProfile', {
                 method: 'POST',
+                body: formData, // ✅ Send FormData directly (Do NOT stringify!)
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'// Remove 'Content-Type', let fetch handle it
-                },
-                body:JSON.stringify(formData), // Do NOT stringify FormData
+                    Authorization: `Bearer ${token}`, // ✅ Keep Authorization header
+                    // 'Content-Type': 'multipart/form-data' ❌ DO NOT manually set this
+                }
             });
     
             const data = await response.json();
@@ -59,6 +62,7 @@ const EditProfile = ({ route }) => {
         }
     };
     
+    
 
       const requestGalleryPermission = async () => {
         // const androidVersion = parseInt(Platform.Version, 10);
@@ -72,7 +76,7 @@ const EditProfile = ({ route }) => {
       }
 
       const selectImage = async () => {
-          // console.log("selectImage")
+          console.log("selectImage")
           const hasPermission = await requestGalleryPermission();
           // const hasPermission = await requestCameraPermission();
           console.log(hasPermission)

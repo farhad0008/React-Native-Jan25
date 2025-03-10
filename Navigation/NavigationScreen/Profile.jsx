@@ -105,7 +105,9 @@ const Profile = () => {
           <Entypo name={'chevron-right'}size={20}color={'black'}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginTop:20 }}>
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginTop:20 }}
+        onPress={()=>navigation.navigate('CourseScreen',{profileDataEdt:profileData})}
+        >
           <View style={{ flexDirection: 'row', gap: 10 }}>
             <Feather name={'book'} size={22} color={'black'} />
             <Text style={{textAlign:'center', fontSize:15,fontWeight:'bold'}}>Change Course</Text>
