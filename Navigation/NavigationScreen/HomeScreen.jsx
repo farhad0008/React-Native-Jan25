@@ -47,15 +47,19 @@ const HomeScreen = () => {
 
     const uncompletedQuestionBank = async () => {
         try {
-            const response = await fetch('https://test.moprep.in/api/v2/uncompletedQuestionBank?course_master_id=1',
-                {
-                    method: 'GET',
-                    headers: { Authorization: `Bearer ${token}` }
-                }
-            );
+            const course_master_id = await AsyncStorage.getItem('course_id');
+            console.log('course_master_id:', course_master_id);
+            const url = `https://test.moprep.in/api/v2/uncompletedQuestionBank?course_master_id=${course_master_id || 1}`;
+            const response = await fetch(url, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            
             const data = await response.json();
             setUnComQueBan(data.result);
-            // console.log('uncompletedQuestionBank', data);
+            console.log('uncompletedQuestionBank', data);
         } catch (error) {
             console.error("Error fetching question banks:", error);
         }

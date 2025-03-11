@@ -8,7 +8,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { AppImages } from '../../assets/images';
 import * as ImagePicker from "react-native-image-picker";
-import { request, PERMISSIONS ,RESULTS } from 'react-native-permissions';
+import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditProfile = ({ route }) => {
@@ -64,37 +64,50 @@ const EditProfile = ({ route }) => {
     
     
 
-      const requestGalleryPermission = async () => {
-        // const androidVersion = parseInt(Platform.Version, 10);
-        const permission = Platform.Version >=33
-        // androidVersion >= 33
+    const requestGalleryPermission = async () => {
+    const permission = Platform.select({
+        android: Platform.Version >= 33
             ? PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
-            : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
-      
-        const result = await request(Platform.OS === "android" ? permission : PERMISSIONS.IOS.PHOTO_LIBRARY);
-        return result === RESULTS.GRANTED;
-      }
+            : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+        ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+    });
 
+    console.log("Requesting Gallery Permission...");
+
+    // Always request permission when the function is called
+    const result = await request(permission);
+
+    if (result === RESULTS.GRANTED) {
+        return true;
+    } else if (result === RESULTS.DENIED) {
+        // Ask again if denied
+        return requestGalleryPermission(); 
+    } else {
+        // If permanently denied or blocked, just show an alert
+        Alert.alert("Permission Denied", "Gallery access is required to select an image.");
+        return false;
+    }
+};
+      
       const selectImage = async () => {
-          console.log("selectImage")
-          const hasPermission = await requestGalleryPermission();
-          // const hasPermission = await requestCameraPermission();
-          console.log(hasPermission)
-          if (!hasPermission) {
-            Alert.alert("Permission Denied", "Camera access is required to take pictures.");
-            return;
-          }
-          const result = await ImagePicker.launchImageLibrary({//launchCamera 
-            mediaType: "photo",//video
-            cameraType: "front",
-            selectionLimit: 1,
-          });
-          console.log(result);
-          if (!result.didCancel && result.assets && result.assets.length > 0) {
-            // setProfilePic(result.assets[0].uri);
-            seteditprofileData({...editprofileData,avatar:result.assets[0].uri})
-          }
+        // console.log("selectImage");
+        const hasPermission = await requestGalleryPermission();
+      
+        if (!hasPermission) {
+          return;
         }
+      
+        const result = await ImagePicker.launchImageLibrary({
+          mediaType: "photo",
+          selectionLimit: 1,
+        });
+      
+        console.log(result);
+      
+        if (!result.didCancel && result.assets && result.assets.length > 0) {
+          seteditprofileData({ ...editprofileData, avatar: result.assets[0].uri });
+        }
+      };
 
     useEffect(() => {
         const { profileDataEdt } = route?.params;

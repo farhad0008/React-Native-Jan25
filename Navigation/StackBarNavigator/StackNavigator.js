@@ -5,9 +5,11 @@ import Login from '../../screen/Login';
 import ChapterScreen from '../NavigationScreen/ChapterScreen';
 import BottomTabBar from '../BottomTabBar/BottomTabBar';
 import TopicQuestionsScreen from '../NavigationScreen/TopicQuestionsScreen';
-import QuestionScreen from '../QuestionScreen';
+import QuestionScreen from '../NavigationScreen/QuestionScreen';
 import EditProfile from '../NavigationScreen/EditProfile';
 import CourseScreen from '../NavigationScreen/CourseScreen';
+import ContactUs from '../NavigationScreen/ContactUs';
+import Privacy from '../NavigationScreen/Privacy';
 
 
 const StackNavigator = () => {
@@ -30,6 +32,18 @@ const StackNavigator = () => {
         <Stack.Screen name='CourseScreen' component={CourseScreen} 
         options={{
           headerTitle:'Courses',
+          headerShown: true,
+        }}
+        />
+        <Stack.Screen name='ContactUs' component={ContactUs} 
+         options={{
+          headerTitle:'ContactUs',
+          headerShown: true,
+        }}
+        />
+        <Stack.Screen name='Privacy' component={Privacy} 
+         options={{
+          headerTitle:'Privacy & Policy',
           headerShown: true,
         }}
         />

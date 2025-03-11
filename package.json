@@ -41,6 +41,7 @@
     "react-native-super-grid": "^6.0.1",
     "react-native-toast-message": "^2.2.1",
     "react-native-vector-icons": "^10.2.0",
+    "react-native-webview": "^13.13.4",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1"
   },

@@ -139,7 +139,10 @@ const Profile = () => {
           <Entypo name={'chevron-right'}size={20}color={'black'}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginTop:20 }}>
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginTop:20 }}
+                onPress={()=>navigation.navigate('ContactUs')}
+
+        >
           <View style={{ flexDirection: 'row', gap: 10 }}>
             <Feather name={'phone-call'} size={22} color={'black'} />
             <Text style={{textAlign:'center', fontSize:15,fontWeight:'bold'}}>Contact Us</Text>
@@ -147,7 +150,9 @@ const Profile = () => {
           <Entypo name={'chevron-right'}size={20}color={'black'}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginTop:20 }}>
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginTop:20 }}
+        onPress={()=>navigation.navigate('Privacy')}
+        >
           <View style={{ flexDirection: 'row', gap: 10 }}>
             <Feather name={'file-text'} size={22} color={'black'} />
             <Text style={{textAlign:'center', fontSize:15,fontWeight:'bold'}}>T&C,Refund and Privacy policy</Text>
